@@ -7,23 +7,42 @@ class HashMap
 {
 private:
     // storing data in table
-    vector<pair<int, string>> table;
+    int size;
+    vector<pair<int, string>> table; // key, value
 
 public:
     // constructors
+
     HashMap()
     {
-        table;
+        this->size = 100;
+        table.resize(100);
+    }
+    HashMap(int size)
+    {
+        this->size = size;
+        table.resize(size);
     }
     HashMap(vector<pair<int, string>> data)
     {
         table = data;
     }
 
+    // Hash Function
+
+    int hashFunction(int key)
+    {
+        key % size;
+    }
+
     // methods
     void push(pair<int, string> data)
     {
-        table.push_back(data);
+        for(auto el: table){
+            if(el.first == data.first){
+                
+            }
+        }
     }
 
     void print()
