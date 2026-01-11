@@ -9,6 +9,7 @@ private:
     // storing data in table
     vector<pair<int, string>> table;
 
+public:
     // constructors
     HashMap()
     {
@@ -28,7 +29,7 @@ private:
 
 int main()
 {
-    HashMap mpp();
+    HashMap mpp;
 
     mpp.push({2, "vikas"});
     return 0;
