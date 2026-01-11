@@ -25,6 +25,16 @@ public:
     {
         table.push_back(data);
     }
+
+    void print()
+    {
+        cout << "##########" << endl;
+        for (auto it : table)
+        {
+            cout << it.first << " " << it.second << endl;
+        }
+        cout << "##########" << endl;
+    }
 };
 
 int main()
@@ -32,5 +42,10 @@ int main()
     HashMap mpp;
 
     mpp.push({2, "vikas"});
+    mpp.push({3, "rohan"});
+    mpp.push({3, "rohan"});
+    mpp.push({3, "rohan"});
+    mpp.push({3, "rohan"});
+    mpp.print();
     return 0;
 }
