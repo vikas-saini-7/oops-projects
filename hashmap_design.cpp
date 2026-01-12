@@ -8,12 +8,13 @@ class HashMap
 private:
     // storing data in table
     int capacity;
+    int count;
     vector<vector<pair<int, string>>> table; // [[{}]]
 
     // HASH FUNCTION
     int hashFunction(int key)
     {
-        return key % capacity;
+        return abs(key) % capacity;
     }
 
 public:
@@ -22,11 +23,13 @@ public:
     {
         this->capacity = 100;
         table.resize(100);
+        this->count = 0;
     }
     HashMap(int capacity)
     {
         this->capacity = capacity;
         table.resize(capacity);
+        this->count = 0;
     }
 
     // METHODS
@@ -34,15 +37,17 @@ public:
     /// @brief Printing
     void print()
     {
-        for (auto &row : table)
+        for (int i = 0; i < table.size(); i++)
         {
-            for (auto &bucket : row)
+            cout << i << " : ";
+
+            for (auto &bucket : table[i])
             {
-                cout << "{" << bucket.first << "->" << bucket.second << "}" << " ";
+                cout << "{" << bucket.first << " -> " << bucket.second << "} ";
             }
-            // cout << endl;
+
+            cout << endl;
         }
-        cout << endl;
     }
 
     // OPERATIONS
@@ -53,7 +58,7 @@ public:
     void insert(int key, string value)
     {
         int index = hashFunction(key);
-        for (auto bucket : table[index])
+        for (auto &bucket : table[index])
         {
             if (bucket.first == key)
             {
@@ -62,12 +67,27 @@ public:
             }
         }
         table[index].push_back({key, value});
+        count++;
     }
 
     /// @brief Delete Item
     /// @param key
-    void remove(int key)
+    bool remove(int key)
     {
+        int index = hashFunction(key);
+
+        auto &bucket = table[index];
+        for (auto it = bucket.begin(); it != bucket.end(); it++)
+        {
+            if (it->first == key)
+            {
+                bucket.erase(it);
+                count--;
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// @brief Get value at key
@@ -85,6 +105,7 @@ public:
         }
         return "Value for provided key Does Not Exist";
     }
+
     /// @brief To check if key is present
     /// @param key
     /// @return boolean
@@ -103,7 +124,7 @@ public:
 
     int size()
     {
-        return 0;
+        return count;
     }
 };
 
@@ -115,5 +136,6 @@ int main()
     mpp.insert(1, "Rohan");
     mpp.insert(3, "Saini");
     mpp.print();
+    cout << mpp.size() << endl;
     return 0;
 }
