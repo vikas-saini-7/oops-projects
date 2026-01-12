@@ -7,64 +7,113 @@ class HashMap
 {
 private:
     // storing data in table
-    int size;
-    vector<pair<int, string>> table; // key, value
+    int capacity;
+    vector<vector<pair<int, string>>> table; // [[{}]]
 
-public:
-    // constructors
-
-    HashMap()
-    {
-        this->size = 100;
-        table.resize(100);
-    }
-    HashMap(int size)
-    {
-        this->size = size;
-        table.resize(size);
-    }
-    HashMap(vector<pair<int, string>> data)
-    {
-        table = data;
-    }
-
-    // Hash Function
-
+    // HASH FUNCTION
     int hashFunction(int key)
     {
-        key % size;
+        return key % capacity;
     }
 
-    // methods
-    void push(pair<int, string> data)
+public:
+    // CONSTRUCTOR
+    HashMap()
     {
-        for(auto el: table){
-            if(el.first == data.first){
-                
-            }
-        }
+        this->capacity = 100;
+        table.resize(100);
+    }
+    HashMap(int capacity)
+    {
+        this->capacity = capacity;
+        table.resize(capacity);
     }
 
+    // METHODS
+
+    /// @brief Printing
     void print()
     {
-        cout << "##########" << endl;
-        for (auto it : table)
+        for (auto &row : table)
         {
-            cout << it.first << " " << it.second << endl;
+            for (auto &bucket : row)
+            {
+                cout << "{" << bucket.first << "->" << bucket.second << "}" << " ";
+            }
+            // cout << endl;
         }
-        cout << "##########" << endl;
+        cout << endl;
+    }
+
+    // OPERATIONS
+
+    /// @brief Add Item
+    /// @param key
+    /// @param value
+    void insert(int key, string value)
+    {
+        int index = hashFunction(key);
+        for (auto bucket : table[index])
+        {
+            if (bucket.first == key)
+            {
+                bucket.second = value;
+                return;
+            }
+        }
+        table[index].push_back({key, value});
+    }
+
+    /// @brief Delete Item
+    /// @param key
+    void remove(int key)
+    {
+    }
+
+    /// @brief Get value at key
+    /// @param key
+    /// @return string
+    string get(int key)
+    {
+        int index = hashFunction(key);
+        for (auto &bucket : table[index])
+        {
+            if (bucket.first == key)
+            {
+                return bucket.second;
+            }
+        }
+        return "Value for provided key Does Not Exist";
+    }
+    /// @brief To check if key is present
+    /// @param key
+    /// @return boolean
+    bool isPresent(int key)
+    {
+        int index = hashFunction(key);
+        for (auto &bucket : table[index])
+        {
+            if (bucket.first == key)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    int size()
+    {
+        return 0;
     }
 };
 
 int main()
 {
     HashMap mpp;
-
-    mpp.push({2, "vikas"});
-    mpp.push({3, "rohan"});
-    mpp.push({3, "rohan"});
-    mpp.push({3, "rohan"});
-    mpp.push({3, "rohan"});
+    mpp.insert(1, "Vikas");
+    mpp.insert(1, "Roshan");
+    mpp.insert(1, "Rohan");
+    mpp.insert(3, "Saini");
     mpp.print();
     return 0;
 }
