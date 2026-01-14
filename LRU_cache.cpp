@@ -31,6 +31,27 @@ public:
 
         return val;
     }
+
+    void put(int key, int value)
+    {
+        // find key if exists remove
+        if (mpp.find(key) != mpp.end())
+        {
+            dll.erase(mpp[key]);
+        }
+
+        // else check if cache is full remove from back
+        else if (dll.size() == capacity)
+        {
+            auto last = dll.back();
+            mpp.erase(last.first);
+            dll.pop_back();
+        }
+
+        // insert at front
+        dll.push_front({key, value});
+        mpp[key] = dll.begin();
+    }
 };
 
 int main()
